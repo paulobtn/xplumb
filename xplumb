@@ -1,0 +1,42 @@
+#!/bin/sh
+
+#### pick content in primary selection, exit if it's empty
+prim="$(xclip -o )"; [ -z "$prim" ] && exit
+
+#### pick directory of focused window
+dir="$(xcwd)"
+
+#### Open file or directory
+
+# 1. substitute any possible environment variable
+prim=$(echo $prim | sed 's/~/$HOME/g' | envsubst )
+dir=$(echo $dir | sed 's/~/$HOME/g' | envsubst )
+
+# 2. the file path can be relative or absolute. We need to test both
+fp=""
+if [ -e "$prim" ]; then
+	fp="$prim"		
+fi
+
+if [ -e "$dir/$prim" ]; then
+	fp="$dir/$prim"
+fi
+
+# 3. open if it's a valid file
+[ -f "$fp" ] && xdg-open "$fp" && exit
+
+# 4. open in file browser if it's a valid directory
+[ -d "$fp" ] && st -e ksh -c "cd \"$fp\" && NO_COLOR=true nnn; exec /bin/ksh" && exit
+
+#### open man page
+if [ -n "`echo "$prim" | grep "(.*)"`" ]; then
+	manpage=$(echo "$prim" | cut -d "(" -f 1)
+	$TERMINAL -e man "$manpage"
+	exit
+fi
+
+#### open url
+if [ -n "`echo "$prim" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*"`" ]; then
+	$BROWSER $prim
+	exit
+fi
