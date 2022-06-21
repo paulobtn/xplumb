@@ -8,7 +8,7 @@ Since it's a personal script and I don't intend to release it, it's very attache
 
 
 ## Demonstration
-I configured Openbsd's CWM window manager to trigger this script as a keybind:
+I configured Openbsd's Calm Window Manager to trigger this script as a keybind:
 
 https://user-images.githubusercontent.com/73610010/174501533-b2593ec0-bb3f-48a8-a1f7-0b4bcd7b911b.mp4
 
