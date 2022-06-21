@@ -31,7 +31,8 @@ fi
 #### open man page
 if [ -n "`echo "$prim" | grep "(.*)"`" ]; then
 	manpage=$(echo "$prim" | cut -d "(" -f 1)
-	$TERMINAL -e man "$manpage"
+	section=$(echo "$prim" | grep -Eo "[0-9]+")
+	$TERMINAL -e man -s "$section" "$manpage"
 	exit
 fi
 
