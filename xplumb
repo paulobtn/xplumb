@@ -36,7 +36,8 @@ if [ -n "`echo "$prim" | grep "(.*)"`" ]; then
 fi
 
 #### open url
-if [ -n "`echo "$prim" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*"`" ]; then
-	$BROWSER $prim
+url=$(echo "$prim" | grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*")
+if [ -n "$url" ]; then
+	$BROWSER "$url"
 	exit
 fi
